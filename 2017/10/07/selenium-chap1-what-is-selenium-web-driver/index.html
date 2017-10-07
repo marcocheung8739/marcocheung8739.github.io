@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="张博凯Marco在Github上的个人博客">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="小Ce所" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Selenium web自动化测试系列 - 什么是selenium web driver｜小ce所 - 专注软件测试技术分享
+        
+    </title>
+
+    <link rel="canonical" href="http://marco8739.github.io/2017/10/07/selenium-chap1-what-is-selenium-web-driver/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('https://cdn-images-1.medium.com/max/1920/1*UwsG9H-F8yycu01SsDxWyw.png')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    小Ce所
+                </span>
+                专注软件测试技术分享
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/">Home</a></li>
+					
+                    
+                        
+							
+								
+							
+						
+                    
+					
+					
+						<li>
+							<a href="/about">About</a>
+						</li>
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="https://cdn-images-1.medium.com/max/1920/1*UwsG9H-F8yycu01SsDxWyw.png">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('https://cdn-images-1.medium.com/max/1920/1*UwsG9H-F8yycu01SsDxWyw.png')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Selenium web自动化测试系列 - 什么是selenium web driver</h1>
+                    
+                    <span class="meta">
+                         作者 张博凯Marco
+                        <span>
+                          日期 2017-10-07
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Selenium web自动化测试系列 - 什么是selenium web driver
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>等了这么久，我们终于说完了java，大家应该对用java写代码不害怕了。那从今天起我们就开始讲Selenium web driver了，这也是我们的这个系列课程的核心。Selenium web driver，翻译过来就是一个叫selenium的用于web应用程序的自动化测试框架。就这么一个定义还有点绕，念起来还挺费劲。我先给大家解释一下：</p>
+<p>首先，可能有些人不知道什么是框架，框架其实就是一种被人设计出来的工具包，一个工具集合。一个电工去修电器需要背个小包，里面装满了工具，比如电笔，钳子，螺丝刀，都是人们设计出来专门用于修家电的东西。和框架的概念是一样的：</p>
+<p>其次，selenium字面上翻译过来叫硒，是一种化学元素的名称，我也不知道它和自动化测试有什么关系，反正要是我是selenium发明者的话我肯定不叫这个名，既不高大上也不小清新。当然，我已经不可能是它的发明者了，否则我早成了软件界的明星了。不过虽然我不是明星，但selenium web driver经过这几年的迅猛发展，早已成为自动化测试世界的明星了，现在只要一提web自动化主要用的都是selenium web driver。Driver的英文大家都知道，是司机的意思，在咱们这里翻译成驱动。因为驱动是Selenium自动化框架的重要元素，也是核心之一，用driver给整个框架工具包命名可见一斑；</p>
+<p>第三，自动化。定义上说以人为驱动的测试行为转化为机器执行的一种过程，说白了就是用你写的代码来代替你的手在网页上做操作。我刚接触的时候觉得还挺神奇，就感觉电脑被人控制了一样，浏览器自动打开了，网页自动打开了，然后网上的按钮链开始被自动点点点。后来一想，细思极恐。还好自己知道是怎么回事，这要是爸妈之类的不懂这技术的看到就尴尬了，夜里失眠上网看新闻，突然浏览器自己打开了然后还自己动动动。。。</p>
+<p>第四，Selenium web driver很强大，但也有局限性。因为它只能测web应用程序的界面，对于网页来说就是浏览器返回的页面，不能测别的。有人说搞笑，大家上网不都是看网页吗？还能测啥别的？其实不然。大家看到的网页其实只是在web应用当中的最后一层，网页上的那些数据都是经过各种业务处理最后返回的，是动态变化的。你上网看新闻的时候，那些网页每天看上去虽然结构和页面显示都差不多，但新闻内容都是变化的。这些变化的过程是在后台发生的，而后台代码里有业务逻辑层，有接口，还有组成功能的单元代码。虽然上网时感觉网页跳转起来速度很快，尤其网速快的时候压根没感觉，恨不得眨个眼睛搜狐就变成了搜狗，但其实过程很复杂。所以，说自动化的时候，我们一般谈论的三种 – 界面测试(UI层)，集成/接口测试(API层)，单元测试层(Unit Testing)。而Selenium web driver就只是在界面上进行的测试的框架。至于接口和单元测试我们不在这个系列里讲解。</p>
+<p>讲什么都要讲前世今生，这种惯例最长久，所以说我走过最长的路就是套路这句话并没有问题，那我也就不免俗啦。2004年的时候一个美国团队开发了一个可以用来做测试的工具，名字里也有selenium，但叫Selenium Remote Control，简称Selenium RC。你写一段测试程序，运行的时候这个工具可以把一段javascript代码嵌到你的浏览器里，然后负责把你程序里的命令传给浏览器，然后就像我刚才说的，浏览器自动打开，自己开始运行。打个比方，这个Selenium RC就好比是一个房产中介，你的程序是业主，浏览器是租户。你委托中介帮你租房，中介把你的要求转达给租户，租户按要求住房，交房租，或是维护房间。整个过程你是不用见租户的，中介来负责。</p>
+<p>正因为要有这么个“中间商”，所以执行速度会比较慢。后来有很多人对这个工具感兴趣，一个日本人开发出了一个叫Selenium IDE的插件，可以在不用写代码的情况下通过录制回放来进行测试，有点QTP的意思。但它功能很有限，不能进行大规模测试代码的编写和操控，并且只能用在firefox浏览器上，大家还是觉得不满意。后来，这个团队继续努力，终于在2011年让Selenium web driver横空出世，现在版本已经开发到了3.0，不过用得最多的还是2.0。它是基于RC的，但速度快多了，因为它让你的代码直接跟浏览器对话，直接操作网页元素。这次业主直接跟租户交流，没有中介的参与了。</p>
+<p>其实Selenium web driver比RC先进的地方还有几个，咱们以后慢慢说。现在基本上没人用RC了，所以我们掌握web driver就可以胜任界面层的自动化测试了。这也是我未来满心期待要跟大家分享的，我们会从驱动如何创建这么一行简单的代码开始，说到最后一起来完成一个完整的实际项目自动化测试框架。所以，稍微复习一下我前面讲的java基本知识，我们下一讲正式开始。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/10/06/hello-world/" data-toggle="tooltip" data-placement="top"
+                           title="Hello World">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5 class="text-center">
+                        <a href="/tags/">FEATURED TAGS</a>
+                    </h5>
+                    <div class="tags">
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/ehazon">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/megahertz">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/haojen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/haojen">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 小Ce所 2017
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://marco8739.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://upload.jianshu.io/users/upload_avatars/3310600/abe54391-d288-4d9b-8751-dffe5a24d219.png?imageMogr2/auto-orient/strip|imageView2/1/w/300/h/300">
+</body>
+
+</html>
